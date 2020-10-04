@@ -62,7 +62,7 @@ public class FieldPanel extends JPanel {
 
     private void onTileClick(ActionEvent actionEvent) {
         Player player = Client.getInstance().getPlayer();
-        if (player.getHasLost()) {
+        if (!player.getHasLost()) {
             TileButton tileButton = (TileButton) actionEvent.getSource();
             Tile tile = tileButton.getTile();
             if (player.getGameId() != null) {

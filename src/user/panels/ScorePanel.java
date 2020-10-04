@@ -12,18 +12,23 @@ import java.util.List;
 
 public class ScorePanel extends JPanel {
     private static ScorePanel instance;
-    private HashMap<Player, Integer> playersScores;
+    private HashMap<Player, Integer> playersScores = new HashMap<>();
 
-    public ScorePanel(HashMap<Player, Integer> playersScores){
+    public ScorePanel(){
         super(new GridBagLayout());
-        instance = this;
-        Player player = Client.getInstance().getPlayer();
-        this.playersScores = playersScores;
-        redraw();
+        setPlayerScore(Client.getInstance().getPlayer());
     }
 
     public static ScorePanel getInstance() {
+        if (instance == null) {
+            instance = new ScorePanel();
+        }
         return instance;
+    }
+
+    public void setPlayersScores(HashMap<Player, Integer> playersScores) {
+        this.playersScores = playersScores;
+        redraw();
     }
 
     public void setPlayerScore(Player player) {
@@ -32,6 +37,7 @@ public class ScorePanel extends JPanel {
     }
 
     public void redraw() {
+        removeAll();
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
 

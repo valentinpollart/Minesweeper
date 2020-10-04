@@ -22,18 +22,21 @@ public class WaitingRoomView extends JPanel{
         return instance;
     }
 
-    public void redraw(HashMap<Player, MineField.Difficulty> playerList) {
+    public void setPlayerList(HashMap<Player, MineField.Difficulty> playerList) {
         this.playerList = playerList;
+    }
+
+    public void redraw() {
         playerList.forEach((K,V) -> add(new PlayerPanel(K,V),BorderLayout.CENTER));
     }
 
     public void addPlayer(Player player, MineField.Difficulty difficulty) {
         this.playerList.put(player, difficulty);
-        redraw(playerList);
+        redraw();
     }
 
     public void removePlayer(Player player) {
         this.playerList.remove(player);
-        redraw(playerList);
+        redraw();
     }
 }

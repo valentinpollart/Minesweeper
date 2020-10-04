@@ -1,6 +1,7 @@
 package user.network.handlers;
 
 import packets.GameList;
+import user.Client;
 import user.views.GameListView;
 
 public class GameListHandler {
@@ -14,6 +15,7 @@ public class GameListHandler {
     }
 
     public void handle(GameList packet) {
-        GameListView.getInstance().redraw(packet.getGameList());
+        GameListView.getInstance().setGamesPlayers(packet.getGameList());
+        Client.getInstance().setContentPane(GameListView.getInstance());
     }
 }

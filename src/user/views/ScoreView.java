@@ -8,24 +8,29 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.HashMap;
 
-public class ScoreboardView extends JPanel {
-    private static ScoreboardView instance;
+public class ScoreView extends JPanel {
+    private static ScoreView instance;
     private HashMap<Player,Integer> scoreboard;
 
-    public static ScoreboardView getInstance() {
+    public static ScoreView getInstance() {
+        if (instance == null) {
+            instance = new ScoreView();
+        }
         return instance;
     }
 
-    public ScoreboardView(HashMap<Player,Integer> scoreboard) {
+    public ScoreView() {
         super(new BorderLayout());
-        instance = this;
+    }
+
+    public void setScoreboard(HashMap<Player, Integer> scoreboard) {
         this.scoreboard = scoreboard;
         redraw();
     }
 
     public void redraw(){
         removeAll();
-        add(new ScorePanel(this.scoreboard), BorderLayout.CENTER);
+        add(ScorePanel.getInstance(), BorderLayout.CENTER);
         JButton gameListButton = new JButton("Retourner à la liste des jeux");
     }
 

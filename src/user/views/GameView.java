@@ -24,7 +24,6 @@ public class GameView extends JPanel {
     public void redraw() {
         removeAll();
         add(FieldPanel.getInstance(), BorderLayout.CENTER);
-        ScorePanel.getInstance().redraw();
         add(ScorePanel.getInstance(), BorderLayout.EAST);
     }
 }

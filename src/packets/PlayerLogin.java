@@ -8,4 +8,8 @@ public class PlayerLogin extends Packet {
     public PlayerLogin(Player player) {
         this.player = player;
     }
+
+    public Player getPlayer() {
+        return player;
+    }
 }

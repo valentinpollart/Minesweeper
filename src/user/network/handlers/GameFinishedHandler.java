@@ -1,7 +1,7 @@
 package user.network.handlers;
 
 import packets.GameFinished;
-import user.views.ScoreboardView;
+import user.views.ScoreView;
 
 public class GameFinishedHandler {
     private static GameFinishedHandler instance;
@@ -14,6 +14,7 @@ public class GameFinishedHandler {
     }
 
     public void handle(GameFinished packet) {
-        ScoreboardView.getInstance().redraw(packet.getScoreboard());
+        ScoreView.getInstance().setScoreboard(packet.getScoreboard());
+        ScoreView.getInstance().redraw();
     }
 }

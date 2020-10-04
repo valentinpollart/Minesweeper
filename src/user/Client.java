@@ -2,7 +2,11 @@ package user;
 
 import game.MineField;
 import game.Player;
+import user.panels.LoginPanel;
+import user.views.GameListView;
 import user.views.GameView;
+import user.views.ScoreView;
+import user.views.WaitingRoomView;
 
 import javax.swing.*;
 
@@ -37,7 +41,7 @@ public class Client extends JFrame {
         return this.field;
     }
 
-    private void setField(MineField field) {
+    public void setField(MineField field) {
         this.field = field;
     }
 
@@ -47,5 +51,21 @@ public class Client extends JFrame {
 
     public Player getPlayer() {
         return player;
+    }
+
+    private void setView(JPanel view) {
+        if (view instanceof GameListView) {
+            GameListView.getInstance().redraw();
+        } else if (view instanceof GameView) {
+            GameView.getInstance().redraw();
+        } else if (view instanceof WaitingRoomView) {
+            WaitingRoomView.getInstance().redraw();
+        } else if (view instanceof ScoreView) {
+            ScoreView.getInstance().redraw();
+        } else if (view instanceof LoginPanel) {
+            LoginPanel.getInstance().redraw();
+        }
+        setContentPane(view);
+        revalidate();
     }
 }

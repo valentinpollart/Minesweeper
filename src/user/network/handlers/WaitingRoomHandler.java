@@ -1,6 +1,7 @@
 package user.network.handlers;
 
 import packets.WaitingRoom;
+import user.Client;
 import user.views.WaitingRoomView;
 
 public class WaitingRoomHandler {
@@ -14,6 +15,7 @@ public class WaitingRoomHandler {
     }
 
     public void handle(WaitingRoom packet) {
-        WaitingRoomView.getInstance().redraw(packet.getPlayerList());
+        WaitingRoomView.getInstance().setPlayerList(packet.getPlayerList());
+        Client.getInstance().setContentPane(WaitingRoomView.getInstance());
     }
 }

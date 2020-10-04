@@ -6,17 +6,14 @@ import javax.swing.*;
 import java.awt.*;
 
 class PlayerScore extends JPanel {
-    private JLabel nameLabel = new JLabel();
-    private JLabel scoreLabel = new JLabel();
-
-    private PlayerScore(){
-        redraw();
-    }
+    private final JLabel nameLabel = new JLabel();
+    private final JLabel scoreLabel = new JLabel();
 
     PlayerScore(Player player){
-        this();
+        super(new GridBagLayout());
         setNameLabel(player);
         setScoreLabel(player);
+        redraw();
     }
 
     public void setNameLabel(Player player) {
@@ -28,6 +25,7 @@ class PlayerScore extends JPanel {
     }
 
     void redraw() {
+        removeAll();
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
 
@@ -36,7 +34,8 @@ class PlayerScore extends JPanel {
 
         add(nameLabel, constraints);
 
-        constraints.gridy++;
+        constraints.gridx++;
+        constraints.anchor = GridBagConstraints.EAST;
         add(scoreLabel, constraints);
     }
 }

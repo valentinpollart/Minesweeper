@@ -11,6 +11,7 @@ import javax.swing.*;
 
 public class GameListView extends JPanel{
     private static GameListView instance;
+    private Vector<HashMap<Player, MineField.Difficulty>> gamesPlayers;
     private int gameId;
 
     public static GameListView getInstance() {
@@ -20,7 +21,11 @@ public class GameListView extends JPanel{
         return instance;
     }
 
-    public void redraw(Vector<HashMap<Player, MineField.Difficulty>> gamesPlayers) {
+    public void setGamesPlayers(Vector<HashMap<Player, MineField.Difficulty>> gamesPlayers) {
+        this.gamesPlayers = gamesPlayers;
+    }
+
+    public void redraw() {
         this.gameId = 0;
         gamesPlayers.forEach((game) -> {
             add(new GamePanel(this.gameId,game));
