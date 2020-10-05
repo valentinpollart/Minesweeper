@@ -4,6 +4,7 @@ import game.MineField;
 import packets.PlayerLeft;
 import user.Client;
 import user.network.ClientSocket;
+import user.panels.FieldPanel;
 import user.panels.LoginPanel;
 import user.views.GameListView;
 import user.views.GameView;
@@ -47,8 +48,9 @@ public class GameMenu extends JMenuBar {
 
         singleGameMenu.addActionListener(actionEvent -> {
             client.setField(new MineField());
+            FieldPanel fieldPanel = FieldPanel.getInstance();
+            fieldPanel.revalidate();
             client.setContentPane(GameView.getInstance());
-            client.revalidate();
         });
 
         gameListMenu.addActionListener(actionEvent -> {

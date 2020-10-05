@@ -3,6 +3,7 @@ package user;
 import game.MineField;
 import game.Player;
 import user.panels.LoginPanel;
+import user.ui.GameMenu;
 import user.views.GameListView;
 import user.views.GameView;
 import user.views.ScoreView;
@@ -26,6 +27,7 @@ public class Client extends JFrame {
         this.player = new Player(JOptionPane.showInputDialog(null, "Input your game name"));
         field.placeMines();
         field.setUnminedTiles();
+        setJMenuBar(GameMenu.getInstance());
         setContentPane(GameView.getInstance());
         setVisible(true);
     }
