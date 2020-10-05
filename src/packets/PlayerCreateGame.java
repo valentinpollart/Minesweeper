@@ -3,11 +3,11 @@ package packets;
 import game.MineField;
 import game.Player;
 
-public class PlayerJoined extends Packet {
+public class PlayerCreateGame extends Packet{
     private final Player player;
     private final MineField.Difficulty difficulty;
 
-    public PlayerJoined(Player player, MineField.Difficulty difficulty) {
+    public PlayerCreateGame(Player player, MineField.Difficulty difficulty) {
         this.player = player;
         this.difficulty = difficulty;
     }

@@ -17,7 +17,7 @@ class PlayerScore extends JPanel {
     }
 
     public void setNameLabel(Player player) {
-        this.nameLabel.setText(player.getName());
+        this.nameLabel.setText(player.getName() + " : ");
     }
 
     public void setScoreLabel(Player player) {

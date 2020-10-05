@@ -17,22 +17,25 @@ public class Client extends JFrame {
     private Player player;
 
     public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Client frame = new Client();
     }
 
     private Client() {
+        super("MineSweeper");
         configure();
         Client.instance = this;
-        this.field = new MineField() ;
         this.player = new Player(JOptionPane.showInputDialog(null, "Input your game name"));
-        field.placeMines();
-        field.setUnminedTiles();
+        newGame();
         setJMenuBar(GameMenu.getInstance());
         setContentPane(GameView.getInstance());
         setVisible(true);
+
     }
-
-
 
     private void configure() {
         setSize(800,600);
@@ -47,7 +50,10 @@ public class Client extends JFrame {
         this.field = field;
     }
 
-    public static Client getInstance() {
+    public static synchronized Client getInstance() {
+        if (instance == null) {
+            instance = new Client();
+        }
         return instance;
     }
 
@@ -69,5 +75,11 @@ public class Client extends JFrame {
         }
         setContentPane(view);
         revalidate();
+    }
+
+    public void newGame() {
+        field = new MineField() ;
+        field.placeMines();
+        field.setUnminedTiles();
     }
 }

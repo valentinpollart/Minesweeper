@@ -17,5 +17,6 @@ public class GameListHandler {
     public void handle(GameList packet) {
         GameListView.getInstance().setGamesPlayers(packet.getGameList());
         Client.getInstance().setContentPane(GameListView.getInstance());
+        Client.getInstance().revalidate();
     }
 }

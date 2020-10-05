@@ -21,6 +21,7 @@ public class TileButton extends JButton {
         this.y = y;
         this.tile = tile;
         setIcon(AssetGetter.loadImage("/undiscovered.png"));
+        setFocusable(true);
         setBorder(null);
         setBorderPainted(false);
         setContentAreaFilled(false);

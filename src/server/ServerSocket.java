@@ -24,16 +24,27 @@ public class ServerSocket {
     public void start() throws IOException {
         java.net.ServerSocket serverSocket = new java.net.ServerSocket(Server.PORT);
 
-        Socket clientSocket;
-        ServerIOThread serverThread;
+        Socket clientSocket = null;
+        ServerIOThread serverThread = null;
 
-        try {
-            clientSocket = serverSocket.accept();
-            serverThread = new ServerIOThread(clientSocket);
-            serverThreads.add(serverThread);
+        while (true) {
+            try {
+                clientSocket = serverSocket.accept();
+                serverThread = new ServerIOThread(clientSocket);
+                serverThreads.add(serverThread);
+                serverThread.start();
+                System.out.println("Accepted client");
 
-        } catch (IOException e) {
+            } catch (IOException e) {
+                if (clientSocket != null) {
+                    clientSocket.close();
+                }
 
+                if (serverThread != null) {
+                    serverThread.interrupt();
+                    serverThreads.remove(serverThread);
+                }
+            }
         }
     }
 
@@ -63,7 +74,15 @@ public class ServerSocket {
         serverGames.remove(gameId);
     }
 
-    public void broadcast(Packet packet) {
-        serverThreads.forEach(thread -> thread.send(packet));
+    public void broadcast(Packet packet, ServerIOThread exceptedThread) {
+        serverThreads.forEach(thread -> {
+             if (thread != exceptedThread) {
+                 thread.send(packet);
+             }
+        });
+    }
+
+    public Vector<ServerIOThread> getServerThreads() {
+        return serverThreads;
     }
 }

@@ -1,6 +1,7 @@
 package server.handlers;
 
 import packets.ChosenGame;
+import packets.PlayerJoined;
 import packets.WaitingRoom;
 import server.ServerGame;
 import server.ServerIOThread;
@@ -18,7 +19,8 @@ public class ChosenGameHandler {
 
     public void handle(ChosenGame packet, ServerIOThread thread) {
         ServerGame game = ServerSocket.getInstance().getServerGame(packet.getChosenGame());
-        game.addPlayer(thread, null);
+        game.addPlayer(thread, packet.getDifficulty());
+        ServerSocket.getInstance().broadcast(new PlayerJoined(thread.getPlayer(),packet.getDifficulty()),thread);
         thread.send(new WaitingRoom(game.getPlayers()));
     }
 }

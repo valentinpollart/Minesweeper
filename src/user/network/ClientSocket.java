@@ -1,7 +1,6 @@
 package user.network;
 
 import packets.Packet;
-import packets.PlayerJoined;
 import packets.PlayerLogin;
 import user.Client;
 
@@ -40,6 +39,7 @@ public class ClientSocket {
 
     public void send(Packet packet) {
         try {
+            System.out.println("Sending " + packet.getClass().getName());
             output.writeObject(packet);
         } catch (IOException e) {
             e.printStackTrace();

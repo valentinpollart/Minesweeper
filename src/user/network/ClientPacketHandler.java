@@ -14,6 +14,7 @@ public class ClientPacketHandler {
     }
 
     public void handle(Packet packet) {
+        System.out.println("Receiving " + packet.getClass().getName());
         if(packet instanceof TileReveal) {
             TileRevealHandler.getInstance().handle((TileReveal) packet);
         } else if (packet instanceof GameList) {

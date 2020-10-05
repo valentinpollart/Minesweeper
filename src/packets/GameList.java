@@ -2,7 +2,6 @@ package packets;
 
 import game.MineField;
 import game.Player;
-import server.ServerGame;
 
 import java.util.HashMap;
 import java.util.Vector;

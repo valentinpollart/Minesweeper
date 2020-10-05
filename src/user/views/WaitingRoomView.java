@@ -4,16 +4,15 @@ import game.MineField;
 import game.Player;
 import user.panels.PlayerPanel;
 
-import java.util.HashMap;
-
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
 
 
 public class WaitingRoomView extends JPanel{
     private static WaitingRoomView instance;
 
-    private HashMap<Player, MineField.Difficulty> playerList;
+    private HashMap<Player, MineField.Difficulty> playerList = new HashMap<>();
 
     public static WaitingRoomView getInstance() {
         if (instance == null) {
@@ -24,9 +23,11 @@ public class WaitingRoomView extends JPanel{
 
     public void setPlayerList(HashMap<Player, MineField.Difficulty> playerList) {
         this.playerList = playerList;
+        redraw();
     }
 
     public void redraw() {
+        removeAll();
         playerList.forEach((K,V) -> add(new PlayerPanel(K,V),BorderLayout.CENTER));
     }
 

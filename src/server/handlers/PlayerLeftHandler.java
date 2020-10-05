@@ -20,6 +20,6 @@ public class PlayerLeftHandler {
         if(gameId != null) {
             ServerGame game = ServerSocket.getInstance().getServerGame(gameId);
         }
-        ServerSocket.getInstance().broadcast(packet);
+        ServerSocket.getInstance().broadcast(packet, thread);
     }
 }

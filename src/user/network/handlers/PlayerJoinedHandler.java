@@ -1,8 +1,7 @@
 package user.network.handlers;
 
-import packets.Packet;
 import packets.PlayerJoined;
-import packets.PlayerLogin;
+import user.Client;
 import user.views.WaitingRoomView;
 
 public class PlayerJoinedHandler {
@@ -17,5 +16,6 @@ public class PlayerJoinedHandler {
 
     public void handle(PlayerJoined packet) {
         WaitingRoomView.getInstance().addPlayer(packet.getPlayer(), packet.getDifficulty());
+        Client.getInstance().revalidate();
     }
 }

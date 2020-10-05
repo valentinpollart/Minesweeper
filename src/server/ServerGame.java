@@ -12,7 +12,7 @@ public class ServerGame {
     private MineField game;
     private HashMap<ServerIOThread, MineField.Difficulty> threads = new HashMap<ServerIOThread, MineField.Difficulty>();
 
-    ServerGame(ServerIOThread thread, MineField.Difficulty difficulty) {
+    public ServerGame(ServerIOThread thread, MineField.Difficulty difficulty) {
         this.threads.put(thread, difficulty);
     }
 
@@ -30,6 +30,10 @@ public class ServerGame {
 
     public void setFinished(boolean finished) {
         isFinished = finished;
+    }
+
+    public HashMap<ServerIOThread, MineField.Difficulty> getThreads() {
+        return threads;
     }
 
     public MineField getGame() {

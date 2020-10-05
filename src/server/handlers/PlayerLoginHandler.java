@@ -16,6 +16,7 @@ public class PlayerLoginHandler {
     }
 
     public void handle(PlayerLogin packet, ServerIOThread thread){
+        thread.setPlayer(packet.getPlayer());
         thread.send(new GameList(ServerSocket.getInstance().getGamesPlayers()));
     }
 }

@@ -1,7 +1,12 @@
 package user.network.handlers;
 
+import game.MineField;
+import packets.PlayerJoin;
+import packets.PlayerJoined;
+import packets.PlayerLogin;
 import packets.WaitingRoom;
 import user.Client;
+import user.network.ClientSocket;
 import user.views.WaitingRoomView;
 
 public class WaitingRoomHandler {
@@ -17,5 +22,7 @@ public class WaitingRoomHandler {
     public void handle(WaitingRoom packet) {
         WaitingRoomView.getInstance().setPlayerList(packet.getPlayerList());
         Client.getInstance().setContentPane(WaitingRoomView.getInstance());
+        Client.getInstance().revalidate();
+        ClientSocket.getInstance().send(new PlayerJoin(Client.getInstance().getPlayer()));
     }
 }

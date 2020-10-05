@@ -2,6 +2,7 @@ package server;
 
 import game.Player;
 import packets.Packet;
+import packets.PlayerLeft;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -33,12 +34,21 @@ public class ServerIOThread extends Thread {
                 Packet packet = (Packet) this.input.readObject();
                 ServerPacketHandler.getInstance().handle(packet, this);
             } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
+                ServerSocket.getInstance().getServerThreads().remove(this);
+
+                ServerSocket.getInstance().getServerGames().removeIf(serverGame -> {
+                    if(serverGame.getThreads().containsKey(this)) {
+                        serverGame.broadcast(new PlayerLeft(getPlayer()));
+                        return true;
+                    }
+                    return false;
+                });
             }
         }
     }
 
     public void send(Packet packet) {
+        System.out.println("Sending " + packet.getClass().getName());
         try {
             output.writeObject(packet);
         } catch (IOException e) {

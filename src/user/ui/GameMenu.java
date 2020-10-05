@@ -6,11 +6,11 @@ import user.Client;
 import user.network.ClientSocket;
 import user.panels.FieldPanel;
 import user.panels.LoginPanel;
+import user.panels.ScorePanel;
 import user.views.GameListView;
 import user.views.GameView;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class GameMenu extends JMenuBar {
     private static GameMenu instance;
@@ -47,9 +47,11 @@ public class GameMenu extends JMenuBar {
         });
 
         singleGameMenu.addActionListener(actionEvent -> {
-            client.setField(new MineField());
+            client.newGame();
+            client.getPlayer().reset();
             FieldPanel fieldPanel = FieldPanel.getInstance();
-            fieldPanel.revalidate();
+            fieldPanel.redraw();
+            ScorePanel.getInstance().redraw();
             client.setContentPane(GameView.getInstance());
         });
 

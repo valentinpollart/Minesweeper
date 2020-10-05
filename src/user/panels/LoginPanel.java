@@ -1,6 +1,7 @@
 package user.panels;
 
-import user.network.ClientPacketHandler;
+import packets.PlayerLogin;
+import user.Client;
 import user.network.ClientSocket;
 
 import javax.swing.*;
@@ -41,8 +42,10 @@ public class LoginPanel extends JPanel {
 
         connect.addActionListener(actionEvent -> {
             try {
+                ClientSocket clientSocket = ClientSocket.getInstance();
                 String [] text = serverIpText.getText().split(":");
-                ClientSocket.getInstance().connect(text[0],Integer.parseInt(text[1]));
+                clientSocket.connect(text[0],Integer.parseInt(text[1]));
+                clientSocket.send(new PlayerLogin(Client.getInstance().getPlayer()));
             } catch (IOException e) {
                 e.printStackTrace();
             }

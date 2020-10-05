@@ -39,7 +39,7 @@ public class FieldPanel extends JPanel {
 
     public void redraw() {
         removeAll();
-        MineField mineField = Client.getInstance().getField();
+        mineField = Client.getInstance().getField();
 
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
@@ -69,12 +69,14 @@ public class FieldPanel extends JPanel {
                 ClientSocket.getInstance().send(new TileRequest(player, tileButton.getX(), tileButton.getY()));
             } else {
                 tileButton.redraw();
-            }
-            if (tile.getStatus() != Tile.Status.MINED) {
-                player.incrementScore();
-                ScorePanel.getInstance().setPlayerScore(player);
-            } else {
-                player.setHasLost(true);
+                if (tile.getStatus() != Tile.Status.MINED) {
+                    player.incrementScore();
+                    ScorePanel.getInstance().setPlayerScore(player);
+                    ScorePanel.getInstance().revalidate();
+                } else {
+                    player.setHasLost(true);
+
+                }
             }
         }
     }

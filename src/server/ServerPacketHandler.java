@@ -1,11 +1,7 @@
 package server;
 
-import game.Tile;
 import packets.*;
-import server.handlers.ChosenGameHandler;
-import server.handlers.PlayerLeftHandler;
-import server.handlers.PlayerLoginHandler;
-import server.handlers.TileRequestHandler;
+import server.handlers.*;
 
 public class ServerPacketHandler {
     private static ServerPacketHandler instance;
@@ -18,6 +14,7 @@ public class ServerPacketHandler {
     }
 
     public void handle(Packet packet, ServerIOThread thread){
+        System.out.println("Receiving " + packet.getClass().getName());
         if(packet instanceof TileRequest) {
             TileRequestHandler.getInstance().handle((TileRequest) packet, thread);
         } else if (packet instanceof PlayerLogin) {
@@ -26,6 +23,10 @@ public class ServerPacketHandler {
             ChosenGameHandler.getInstance().handle((ChosenGame) packet, thread);
         } else if(packet instanceof PlayerLeft) {
             PlayerLeftHandler.getInstance().handle((PlayerLeft) packet, thread);
+        } else if (packet instanceof PlayerCreateGame) {
+            PlayerCreateGameHandler.getInstance().handle((PlayerCreateGame) packet, thread);
+        } else if (packet instanceof PlayerJoin) {
+            PlayerJoinHandler.getInstance().handle((PlayerJoin) packet, thread);
         }
     }
 

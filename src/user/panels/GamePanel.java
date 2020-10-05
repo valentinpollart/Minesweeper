@@ -11,30 +11,40 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.HashMap;
 
-public class GamePanel extends JButton {
+public class GamePanel extends JPanel {
     private HashMap<Player, MineField.Difficulty> players;
     private int gameId;
 
     public GamePanel(int gameId, HashMap<Player, MineField.Difficulty> players) {
-        super();
+        super(new GridBagLayout());
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.anchor = GridBagConstraints.WEST;
         this.players = players;
         this.gameId = gameId;
         setBorder(null);
-        setBorderPainted(false);
-        setContentAreaFilled(false);
-        setFocusPainted(false);
         setOpaque(true);
         setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        setMargin(new Insets(0, 0, 0, 0));
-        add(new JLabel(("Game" + gameId)), BorderLayout.WEST);
-        add(new JLabel(("Players" + players.size())), BorderLayout.CENTER);
+        add(new JLabel(("Game " + gameId)), constraints);
+        constraints.gridx++;
+        add(new JLabel(("Players : " + players.size())), constraints);
+        constraints.gridx++;
         JButton joinButton = new JButton("Join");
-        add(joinButton,BorderLayout.EAST);
+        add(joinButton,constraints);
         joinButton.addActionListener(this::onButtonClick);
     }
 
     private void onButtonClick(ActionEvent actionEvent) {
-        ClientSocket.getInstance().send(new ChosenGame(gameId));
+        MineField.Difficulty difficulty = MineField.Difficulty.values()[JOptionPane.showOptionDialog(
+                null,
+                "Sélectionnez la difficulté que vous désirez",
+                "Difficulté",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                MineField.Difficulty.values(),
+                MineField.Difficulty.values()[0]
+        )];
+        ClientSocket.getInstance().send(new ChosenGame(gameId, difficulty));
         Client.getInstance().getPlayer().setGameId(gameId);
     }
 }

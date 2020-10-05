@@ -1,7 +1,6 @@
 package user.network.handlers;
 
 import packets.PlayerLeft;
-import packets.WaitingRoom;
 import user.views.WaitingRoomView;
 
 public class PlayerLeftHandler {

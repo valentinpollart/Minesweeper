@@ -4,18 +4,39 @@ import game.MineField;
 import game.Player;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class PlayerPanel extends JPanel {
-    private Player player;
-    private MineField.Difficulty difficulty;
+    private final JLabel playerLabel = new JLabel();
+    private final JLabel difficultyLabel = new JLabel();
 
     public PlayerPanel(Player player, MineField.Difficulty difficulty) {
-        this.player = player;
-        this.difficulty = difficulty;
+        super(new GridBagLayout());
+        setPlayerLabel(player);
+        setDifficultyLabel(difficulty);
         redraw();
     }
 
     public void redraw() {
         removeAll();
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.anchor = GridBagConstraints.WEST;
+
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+
+        add(playerLabel, constraints);
+
+        constraints.gridx++;
+        constraints.anchor = GridBagConstraints.EAST;
+        add(difficultyLabel, constraints);
+    }
+
+    public void setPlayerLabel(Player player) {
+        this.playerLabel.setText(player.getName() + " : ");
+    }
+
+    public void setDifficultyLabel(MineField.Difficulty difficulty) {
+        this.difficultyLabel.setText(difficulty.toString());
     }
 }

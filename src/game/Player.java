@@ -1,6 +1,8 @@
 package game;
 
-public class Player {
+import java.io.Serializable;
+
+public class Player implements Serializable {
     private Integer id;
     private int score;
     private String name;
@@ -57,5 +59,12 @@ public class Player {
 
     public void setHasLost(boolean hasLost) {
         this.hasLost = hasLost;
+    }
+
+    public void reset() {
+        this.score = 0;
+        this.gameId = null;
+        this.ready = false;
+        this.hasLost = false;
     }
 }

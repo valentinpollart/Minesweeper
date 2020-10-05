@@ -2,14 +2,18 @@ package user.views;
 
 import game.MineField;
 import game.Player;
+import packets.PlayerCreateGame;
+import server.ServerSocket;
+import user.Client;
+import user.network.ClientSocket;
 import user.panels.GamePanel;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Vector;
 
-import javax.swing.*;
-
-public class GameListView extends JPanel{
+public class GameListView extends JPanel {
     private static GameListView instance;
     private Vector<HashMap<Player, MineField.Difficulty>> gamesPlayers;
     private int gameId;
@@ -21,15 +25,47 @@ public class GameListView extends JPanel{
         return instance;
     }
 
+    private GameListView() {
+        super(new GridBagLayout());
+    }
+
     public void setGamesPlayers(Vector<HashMap<Player, MineField.Difficulty>> gamesPlayers) {
         this.gamesPlayers = gamesPlayers;
+        redraw();
     }
 
     public void redraw() {
-        this.gameId = 0;
-        gamesPlayers.forEach((game) -> {
-            add(new GamePanel(this.gameId,game));
-            this.gameId++;
+        removeAll();
+
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.anchor = GridBagConstraints.WEST;
+
+        JButton newGameButton = new JButton("Créer une nouvelle partie");
+        add(newGameButton, constraints);
+
+        newGameButton.addActionListener(actionEvent -> {
+            MineField.Difficulty difficulty = MineField.Difficulty.values()[JOptionPane.showOptionDialog(
+                    null,
+                    "Sélectionnez la difficulté que vous désirez",
+                    "Difficulté",
+                    JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE,
+                    null,
+                    MineField.Difficulty.values(),
+                    MineField.Difficulty.values()[0]
+                    )];
+            ClientSocket.getInstance().send(new PlayerCreateGame(Client.getInstance().getPlayer(), difficulty));
+            WaitingRoomView.getInstance().addPlayer(Client.getInstance().getPlayer(), difficulty);
+            Client.getInstance().setContentPane(WaitingRoomView.getInstance());
+            Client.getInstance().revalidate();
         });
+
+        gameId = 0;
+        gamesPlayers.forEach((game) -> {
+            constraints.gridy--;
+            add(new GamePanel(this.gameId,game), constraints);
+            gameId++;
+        });
+
     }
 }

@@ -1,14 +1,11 @@
 package user.panels;
 
-import game.MineField;
 import game.Player;
 import user.Client;
-import user.ui.TileButton;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
-import java.util.List;
 
 public class ScorePanel extends JPanel {
     private static ScorePanel instance;
