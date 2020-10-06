@@ -1,13 +1,25 @@
 package packets;
 
-public class GameReady extends Packet{
-    private int gameId;
+import game.MineField;
+import game.Player;
 
-    public GameReady(int gameId) {
-        this.gameId = gameId;
+import java.util.HashMap;
+import java.util.Vector;
+
+public class GameReady extends Packet{
+    private HashMap<Player, Integer> playerList;
+    private MineField.Difficulty difficulty;
+
+    public GameReady(HashMap<Player, Integer> playerList, MineField.Difficulty difficulty) {
+        this.playerList = playerList;
+        this.difficulty = difficulty;
     }
 
-    public int getGameId() {
-        return gameId;
+    public HashMap<Player, Integer> getPlayerList() {
+        return playerList;
+    }
+
+    public MineField.Difficulty getDifficulty() {
+        return difficulty;
     }
 }

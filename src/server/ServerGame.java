@@ -9,6 +9,7 @@ import java.util.HashMap;
 public class ServerGame {
     private boolean isReady = false;
     private boolean isFinished = false;
+    private Integer id;
     private MineField game;
     private HashMap<ServerIOThread, MineField.Difficulty> threads = new HashMap<ServerIOThread, MineField.Difficulty>();
 
@@ -32,6 +33,14 @@ public class ServerGame {
         isFinished = finished;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public HashMap<ServerIOThread, MineField.Difficulty> getThreads() {
         return threads;
     }
@@ -42,6 +51,8 @@ public class ServerGame {
 
     public void setGame(MineField.Difficulty difficulty) {
         this.game = new MineField(difficulty);
+        this.game.placeMines();
+        this.game.setUnminedTiles();
     }
 
     public HashMap<Player, MineField.Difficulty> getPlayers() {
@@ -62,12 +73,17 @@ public class ServerGame {
         threads.replace(thread, difficulty);
     }
 
-    public boolean isGameFinished() {
-        getPlayers().forEach((player,difficulty) -> setFinished(getFinished() & player.getHasLost()));
+    public boolean allPlayersLost() {
+        isFinished = true;
+        getPlayers().forEach((player,difficulty) -> isFinished = isFinished && player.getHasLost());
         return isFinished;
     }
 
-    public void broadcast(Packet packet) {
-        threads.forEach((thread,difficulty) -> thread.send(packet));
+    public void broadcast(Packet packet, ServerIOThread exceptedThread) {
+        threads.forEach((thread,difficulty) -> {
+            if (thread != exceptedThread) {
+                thread.send(packet);
+            }
+        });
     }
 }

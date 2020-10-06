@@ -13,6 +13,8 @@ public class ServerSocket {
     private static ServerSocket instance;
     private Vector<ServerIOThread> serverThreads = new Vector<ServerIOThread>();
     private Vector<ServerGame> serverGames = new Vector<ServerGame>();
+    private Vector<Integer> attributablePlayerIds = new Vector<>();
+    private Vector<Integer> attributableGameIds = new Vector<>();
 
     public static ServerSocket getInstance() {
         if(instance == null) {
@@ -60,9 +62,23 @@ public class ServerSocket {
         return serverGames.indexOf(game);
     }
 
-    public Vector<HashMap<Player, MineField.Difficulty>> getGamesPlayers() {
-        Vector<HashMap<Player, MineField.Difficulty>> gamesPlayers = new Vector<HashMap<Player, MineField.Difficulty>>();
-        serverGames.forEach((K) -> gamesPlayers.add(K.getPlayers()));
+    public Integer getAttributablePlayerId() {
+        if (attributablePlayerIds.isEmpty()) {
+            return getServerThreads().size() - 1;
+        }
+        return attributablePlayerIds.firstElement();
+    }
+
+    public Integer getAttributableGameId() {
+        if (attributableGameIds.isEmpty()) {
+            return getServerThreads().size() - 1;
+        }
+        return attributableGameIds.firstElement();
+    }
+
+    public HashMap<Integer, HashMap<Player, MineField.Difficulty>> getGamesPlayers() {
+        HashMap<Integer, HashMap<Player, MineField.Difficulty>> gamesPlayers = new HashMap<Integer, HashMap<Player, MineField.Difficulty>>();
+        serverGames.forEach((K) -> gamesPlayers.put(K.getId(), K.getPlayers()));
         return gamesPlayers;
     }
 

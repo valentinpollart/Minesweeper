@@ -9,11 +9,13 @@ import java.awt.*;
 public class PlayerPanel extends JPanel {
     private final JLabel playerLabel = new JLabel();
     private final JLabel difficultyLabel = new JLabel();
+    private final JLabel readyLabel = new JLabel();
 
     public PlayerPanel(Player player, MineField.Difficulty difficulty) {
         super(new GridBagLayout());
         setPlayerLabel(player);
         setDifficultyLabel(difficulty);
+        setReadyLabel(player.getReady());
         redraw();
     }
 
@@ -28,6 +30,10 @@ public class PlayerPanel extends JPanel {
         add(playerLabel, constraints);
 
         constraints.gridx++;
+        constraints.anchor = GridBagConstraints.CENTER;
+        add(readyLabel, constraints);
+
+        constraints.gridx++;
         constraints.anchor = GridBagConstraints.EAST;
         add(difficultyLabel, constraints);
     }
@@ -38,5 +44,9 @@ public class PlayerPanel extends JPanel {
 
     public void setDifficultyLabel(MineField.Difficulty difficulty) {
         this.difficultyLabel.setText(difficulty.toString());
+    }
+
+    public void setReadyLabel(boolean ready) {
+        readyLabel.setText(ready ? "Prêt" : "Pas prêt");
     }
 }

@@ -7,13 +7,13 @@ import java.util.HashMap;
 import java.util.Vector;
 
 public class GameList extends Packet {
-    private Vector<HashMap<Player, MineField.Difficulty>> gameList = new Vector<HashMap<Player, MineField.Difficulty>>();
+    private final HashMap<Integer, HashMap<Player, MineField.Difficulty>> gameList;
 
-    public GameList(Vector<HashMap<Player, MineField.Difficulty>> gameList) {
+    public GameList(HashMap<Integer, HashMap<Player, MineField.Difficulty>> gameList) {
         this.gameList = gameList;
     }
 
-    public Vector<HashMap<Player, MineField.Difficulty>> getGameList() {
+    public HashMap<Integer, HashMap<Player, MineField.Difficulty>> getGameList() {
         return gameList;
     }
 }

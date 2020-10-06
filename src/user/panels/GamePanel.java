@@ -12,14 +12,12 @@ import java.awt.event.ActionEvent;
 import java.util.HashMap;
 
 public class GamePanel extends JPanel {
-    private HashMap<Player, MineField.Difficulty> players;
-    private int gameId;
+    private final int gameId;
 
     public GamePanel(int gameId, HashMap<Player, MineField.Difficulty> players) {
         super(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.anchor = GridBagConstraints.WEST;
-        this.players = players;
         this.gameId = gameId;
         setBorder(null);
         setOpaque(true);

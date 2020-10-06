@@ -15,7 +15,7 @@ import java.util.Vector;
 
 public class GameListView extends JPanel {
     private static GameListView instance;
-    private Vector<HashMap<Player, MineField.Difficulty>> gamesPlayers;
+    private HashMap<Integer, HashMap<Player, MineField.Difficulty>> gamesPlayers;
     private int gameId;
 
     public static GameListView getInstance() {
@@ -29,7 +29,7 @@ public class GameListView extends JPanel {
         super(new GridBagLayout());
     }
 
-    public void setGamesPlayers(Vector<HashMap<Player, MineField.Difficulty>> gamesPlayers) {
+    public void setGamesPlayers(HashMap<Integer, HashMap<Player, MineField.Difficulty>> gamesPlayers) {
         this.gamesPlayers = gamesPlayers;
         redraw();
     }
@@ -60,11 +60,9 @@ public class GameListView extends JPanel {
             Client.getInstance().revalidate();
         });
 
-        gameId = 0;
-        gamesPlayers.forEach((game) -> {
+        gamesPlayers.forEach((gameId,game) -> {
             constraints.gridy--;
-            add(new GamePanel(this.gameId,game), constraints);
-            gameId++;
+            add(new GamePanel(gameId,game), constraints);
         });
 
     }

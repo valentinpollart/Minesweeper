@@ -27,6 +27,8 @@ public class ServerPacketHandler {
             PlayerCreateGameHandler.getInstance().handle((PlayerCreateGame) packet, thread);
         } else if (packet instanceof PlayerJoin) {
             PlayerJoinHandler.getInstance().handle((PlayerJoin) packet, thread);
+        } else if (packet instanceof PlayerReady) {
+            PlayerReadyHandler.getInstance().handle((PlayerReady) packet, thread);
         }
     }
 

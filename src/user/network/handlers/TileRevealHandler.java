@@ -6,6 +6,8 @@ import packets.TileReveal;
 import user.Client;
 import user.panels.FieldPanel;
 import user.panels.ScorePanel;
+import user.ui.TileButton;
+import user.views.GameView;
 
 public class TileRevealHandler {
     private static TileRevealHandler instance;
@@ -19,9 +21,18 @@ public class TileRevealHandler {
 
     public void handle(TileReveal packet) {
         Tile tile = packet.getTile();
+        tile.setStatus(tile.isMined() ? Tile.Status.MINED : Tile.Status.EMPTY);
         MineField field = Client.getInstance().getField();
-        field.setTile(packet.getX(), packet.getX(), packet.getTile());
-        FieldPanel.getInstance().redraw();
-        ScorePanel.getInstance().setPlayerScore(packet.getSweeper());
+        TileButton tileButton = FieldPanel.getInstance().getButton(packet.getX(), packet.getY());
+        tileButton.setTile(tile);
+        tileButton.redraw();
+        tileButton.setFocusable(false);
+        if(tile.isMined()) {
+            if(Client.getInstance().getPlayer().getId() == packet.getSweeper().getId()) {
+                Client.getInstance().getPlayer().setHasLost(true);
+            }
+        } else {
+            ScorePanel.getInstance().setPlayerScore(packet.getSweeper());
+        }
     }
 }

@@ -123,8 +123,20 @@ public class MineField {
         return stringifiedMineField;
     }
 
-//    @Override
-//    public String toString() {
-//        return this.displayMineField().toString();
-//    }
+    @Override
+    public String toString() {
+        return this.displayMineField().toString();
+    }
+
+    public boolean isGameFinished() {
+        int remainingMines = 0;
+        for (int i = 0; i<this.length; i++) {
+            for (int j = 0; j < this.length; j++) {
+                if (field[i][j].getStatus() != Tile.Status.EMPTY) {
+                    remainingMines++;
+                }
+            }
+        }
+        return remainingMines == mineCount;
+    }
 }

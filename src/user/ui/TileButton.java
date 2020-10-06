@@ -6,8 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class TileButton extends JButton {
-    private final int x;
-    private final int y;
+    private final int positionX;
+    private final int positionY;
 
     private Tile tile;
 
@@ -15,10 +15,14 @@ public class TileButton extends JButton {
         return tile;
     }
 
-    public TileButton(int x, int y, Tile tile) {
+    public void setTile(Tile tile) {
+        this.tile = tile;
+    }
+
+    public TileButton(int positionX, int positionY, Tile tile) {
         super();
-        this.x = x;
-        this.y = y;
+        this.positionX = positionX;
+        this.positionY = positionY;
         this.tile = tile;
         setIcon(AssetGetter.loadImage("/undiscovered.png"));
         setFocusable(true);
@@ -49,5 +53,13 @@ public class TileButton extends JButton {
             default:
                 throw new IllegalStateException("Asset loader cannot load image for  status" + tile.getStatus());
         }
+    }
+
+    public int getPositionX() {
+        return positionX;
+    }
+
+    public int getPositionY() {
+        return positionY;
     }
 }

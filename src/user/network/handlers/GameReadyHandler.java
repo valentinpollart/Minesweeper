@@ -2,6 +2,7 @@ package user.network.handlers;
 
 import packets.GameReady;
 import user.Client;
+import user.panels.ScorePanel;
 import user.views.GameView;
 
 public class GameReadyHandler {
@@ -15,7 +16,10 @@ public class GameReadyHandler {
     }
 
     public void handle(GameReady packet) {
-        GameView.getInstance().redraw();
-        Client.getInstance().getPlayer().setGameId(packet.getGameId());
+        Client.getInstance().newGame(packet.getDifficulty());
+        ScorePanel.getInstance().setPlayersScores(packet.getPlayerList());
+        Client.getInstance().setContentPane(GameView.getInstance());
+        Client.getInstance().revalidate();
+
     }
 }

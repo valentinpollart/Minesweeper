@@ -33,8 +33,12 @@ public class FieldPanel extends JPanel {
         return instance;
     }
 
-    private void setButton(int x, int y, TileButton button) {
-        buttonField[x][y] = button;
+    private void setButton(TileButton button) {
+        buttonField[button.getPositionX()][button.getPositionY()] = button;
+    }
+
+    public TileButton getButton(int x, int y) {
+        return buttonField[x][y];
     }
 
     public void redraw() {
@@ -48,7 +52,7 @@ public class FieldPanel extends JPanel {
             constraints.gridx = x;
             for (int y = 0; y < mineField.getHeight(); y++) {
                 TileButton button = new TileButton(x, y, mineField.getField()[x][y]);
-                setButton(x, y, button);
+                setButton(button);
                 constraints.gridy = y;
 
                 add(button, constraints);
@@ -57,7 +61,7 @@ public class FieldPanel extends JPanel {
             }
         }
 
-        Client.getInstance().setSize(mineField.getLength() * AssetGetter.TILE_SIZE_PX + 150, mineField.getHeight() * AssetGetter.TILE_SIZE_PX + 30);
+        Client.getInstance().setSize(mineField.getLength() * AssetGetter.TILE_SIZE_PX + 150, mineField.getHeight() * AssetGetter.TILE_SIZE_PX + 100);
     }
 
     private void onTileClick(ActionEvent actionEvent) {
@@ -66,7 +70,8 @@ public class FieldPanel extends JPanel {
             TileButton tileButton = (TileButton) actionEvent.getSource();
             Tile tile = tileButton.getTile();
             if (player.getGameId() != null) {
-                ClientSocket.getInstance().send(new TileRequest(player, tileButton.getX(), tileButton.getY()));
+                TileRequest tileRequest = new TileRequest(player, tileButton.getPositionX(), tileButton.getPositionY());
+                ClientSocket.getInstance().send(tileRequest);
             } else {
                 tileButton.redraw();
                 if (tile.getStatus() != Tile.Status.MINED) {

@@ -1,6 +1,8 @@
 package server.handlers;
 
+import game.Player;
 import packets.GameList;
+import packets.PlayerId;
 import packets.PlayerLogin;
 import server.ServerIOThread;
 import server.ServerSocket;
@@ -16,7 +18,11 @@ public class PlayerLoginHandler {
     }
 
     public void handle(PlayerLogin packet, ServerIOThread thread){
-        thread.setPlayer(packet.getPlayer());
+        Player player = packet.getPlayer();
+        Integer playerId = ServerSocket.getInstance().getAttributablePlayerId();
+        player.setId(playerId);
+        thread.setPlayer(player);
+        thread.send(new PlayerId(playerId));
         thread.send(new GameList(ServerSocket.getInstance().getGamesPlayers()));
     }
 }

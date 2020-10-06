@@ -1,6 +1,8 @@
 package game;
 
-public class Tile {
+import java.io.Serializable;
+
+public class Tile implements Serializable {
     public enum Status {UNDISCOVERED, EMPTY, MINED}
 
     private Status status;
@@ -19,7 +21,7 @@ public class Tile {
         return status;
     }
 
-    void setStatus(Status status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 

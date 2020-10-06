@@ -19,6 +19,7 @@ public class ChosenGameHandler {
 
     public void handle(ChosenGame packet, ServerIOThread thread) {
         ServerGame game = ServerSocket.getInstance().getServerGame(packet.getChosenGame());
+        thread.getPlayer().setGameId(packet.getChosenGame());
         game.addPlayer(thread, packet.getDifficulty());
         ServerSocket.getInstance().broadcast(new PlayerJoined(thread.getPlayer(),packet.getDifficulty()),thread);
         thread.send(new WaitingRoom(game.getPlayers()));

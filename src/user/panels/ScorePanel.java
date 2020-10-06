@@ -28,8 +28,12 @@ public class ScorePanel extends JPanel {
         redraw();
     }
 
-    public void setPlayerScore(Player player) {
-        playersScores.put(player, player.getScore());
+    public void setPlayerScore(Player playerToSet) {
+        playersScores.forEach((player,score) -> {
+            if (player.getId() == playerToSet.getId()) {
+                player.incrementScore();
+            }
+        });
         redraw();
     }
 
@@ -48,6 +52,6 @@ public class ScorePanel extends JPanel {
                 constraints.gridy += 20;
             }
         );
-
+        Client.getInstance().revalidate();
     }
 }

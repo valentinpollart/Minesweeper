@@ -61,6 +61,10 @@ public class Client extends JFrame {
         return player;
     }
 
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
     private void setView(JPanel view) {
         if (view instanceof GameListView) {
             GameListView.getInstance().redraw();
@@ -77,9 +81,13 @@ public class Client extends JFrame {
         revalidate();
     }
 
-    public void newGame() {
-        field = new MineField() ;
+    public void newGame(MineField.Difficulty difficulty) {
+        field = new MineField(difficulty) ;
         field.placeMines();
         field.setUnminedTiles();
+    }
+
+    public void newGame() {
+        newGame(MineField.Difficulty.EASY);
     }
 }

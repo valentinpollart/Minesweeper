@@ -38,7 +38,7 @@ public class ServerIOThread extends Thread {
 
                 ServerSocket.getInstance().getServerGames().removeIf(serverGame -> {
                     if(serverGame.getThreads().containsKey(this)) {
-                        serverGame.broadcast(new PlayerLeft(getPlayer()));
+                        serverGame.broadcast(new PlayerLeft(getPlayer()), null);
                         return true;
                     }
                     return false;

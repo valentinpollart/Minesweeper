@@ -25,6 +25,14 @@ public class ClientPacketHandler {
             PlayerJoinedHandler.getInstance().handle((PlayerJoined) packet);
         } else if (packet instanceof PlayerLeft) {
             PlayerLeftHandler.getInstance().handle((PlayerLeft) packet);
+        } else  if (packet instanceof PlayerReady) {
+            PlayerReadyHandler.getInstance().handle((PlayerReady) packet);
+        } else if (packet instanceof  PlayerId) {
+            PlayerIdHandler.getInstance().handle((PlayerId) packet);
+        } else if (packet instanceof GameReady) {
+            GameReadyHandler.getInstance().handle((GameReady) packet);
+        } else if (packet instanceof  GameCreated) {
+            GameCreatedHandler.getInstance().handle((GameCreated) packet);
         }
     }
 }

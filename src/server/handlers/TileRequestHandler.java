@@ -26,17 +26,26 @@ public class TileRequestHandler {
         Player player = packet.getSweeper();
         ServerGame game = ServerSocket.getInstance().getServerGame(player.getGameId());
         Tile tile = game.getGame().getTile(packet.getX(), packet.getY());
+        tile.setStatus(tile.isMined() ? Tile.Status.MINED : Tile.Status.EMPTY);
         if(tile.isMined()) {
             player.setHasLost(true);
             thread.setPlayer(player);
-            if(game.isGameFinished()) {
+            if(game.allPlayersLost()) {
+                scoreboard = new HashMap<>();
                 game.getPlayers().forEach((p,d) -> scoreboard.put(p, p.getScore()));
-                game.broadcast(new GameFinished(scoreboard));
+                game.broadcast(new GameFinished(scoreboard), null);
                 return;
             }
         } else {
             player.incrementScore();
+
+            if(game.getGame().isGameFinished()) {
+                scoreboard = new HashMap<>();
+                game.getPlayers().forEach((p,d) -> scoreboard.put(p, p.getScore()));
+                game.broadcast(new GameFinished(scoreboard), null);
+                return;
+            }
         }
-        game.broadcast(new TileReveal(player, packet.getX(), packet.getY(), tile));
+        game.broadcast(new TileReveal(player, packet.getX(), packet.getY(), tile), null);
     }
 }
