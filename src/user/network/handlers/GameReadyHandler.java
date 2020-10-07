@@ -16,6 +16,7 @@ public class GameReadyHandler {
     }
 
     public void handle(GameReady packet) {
+        Client.getInstance().getPlayer().setReady(false);
         Client.getInstance().newGame(packet.getDifficulty());
         ScorePanel.getInstance().setPlayersScores(packet.getPlayerList());
         Client.getInstance().setContentPane(GameView.getInstance());

@@ -33,6 +33,8 @@ public class ClientPacketHandler {
             GameReadyHandler.getInstance().handle((GameReady) packet);
         } else if (packet instanceof  GameCreated) {
             GameCreatedHandler.getInstance().handle((GameCreated) packet);
+        } else if (packet instanceof GameFinished) {
+            GameFinishedHandler.getInstance().handle((GameFinished) packet);
         }
     }
 }

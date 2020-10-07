@@ -34,9 +34,11 @@ public class PlayerReadyHandler {
         if(game.getReady()) {
             game.setGame(MineField.Difficulty.EASY);
             HashMap<Player, Integer> playerList = new HashMap<>();
-            game.getPlayers().keySet().forEach((p) -> {
-                playerList.put(p,p.getScore());
+            game.getPlayers().forEach((p,d) -> {
+                playerList.put(p, p.getScore());
+                p.setReady(false);
             });
+            game.setReady(true);
             game.broadcast(new GameReady(playerList ,MineField.Difficulty.EASY), null);
         }
     }

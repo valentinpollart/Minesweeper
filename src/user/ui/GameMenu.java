@@ -2,6 +2,7 @@ package user.ui;
 
 import game.MineField;
 import packets.PlayerLeft;
+import packets.PlayerLogin;
 import user.Client;
 import user.network.ClientSocket;
 import user.panels.FieldPanel;
@@ -42,8 +43,11 @@ public class GameMenu extends JMenuBar {
         Client client = Client.getInstance();
 
         loginMenu.addActionListener(actionEvent -> {
-            client.setContentPane(LoginPanel.getInstance());
-            client.revalidate();
+            if (client.getPlayer().getId() == null)
+            {
+                client.setContentPane(LoginPanel.getInstance());
+                client.revalidate();
+            }
         });
 
         singleGameMenu.addActionListener(actionEvent -> {
@@ -56,8 +60,7 @@ public class GameMenu extends JMenuBar {
         });
 
         gameListMenu.addActionListener(actionEvent -> {
-            client.setContentPane(GameListView.getInstance());
-            client.revalidate();
+            ClientSocket.getInstance().send(new PlayerLogin(null));
         });
 
         logoutMenu.addActionListener(actionEvent -> {

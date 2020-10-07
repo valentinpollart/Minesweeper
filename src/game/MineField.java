@@ -137,6 +137,6 @@ public class MineField {
                 }
             }
         }
-        return remainingMines == mineCount;
+        return remainingMines <= mineCount;
     }
 }

@@ -1,6 +1,7 @@
 package user.network.handlers;
 
 import packets.PlayerReady;
+import user.Client;
 import user.views.WaitingRoomView;
 
 public class PlayerReadyHandler {
@@ -15,5 +16,6 @@ public class PlayerReadyHandler {
 
     public void handle(PlayerReady packet) {
         WaitingRoomView.getInstance().setReady(packet.getPlayer().getId());
+        Client.getInstance().revalidate();
     }
 }

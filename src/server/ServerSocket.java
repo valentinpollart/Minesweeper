@@ -77,8 +77,12 @@ public class ServerSocket {
     }
 
     public HashMap<Integer, HashMap<Player, MineField.Difficulty>> getGamesPlayers() {
-        HashMap<Integer, HashMap<Player, MineField.Difficulty>> gamesPlayers = new HashMap<Integer, HashMap<Player, MineField.Difficulty>>();
-        serverGames.forEach((K) -> gamesPlayers.put(K.getId(), K.getPlayers()));
+        HashMap<Integer, HashMap<Player, MineField.Difficulty>> gamesPlayers = new HashMap<>();
+        serverGames.forEach((K) -> {
+            if (!K.getReady()) {
+                gamesPlayers.put(K.getId(), K.getPlayers());
+            }
+        });
         return gamesPlayers;
     }
 

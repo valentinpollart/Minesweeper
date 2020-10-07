@@ -1,6 +1,8 @@
 package user.views;
 
 import game.Player;
+import packets.PlayerLogin;
+import user.network.ClientSocket;
 import user.panels.ScorePanel;
 
 import javax.swing.*;
@@ -10,7 +12,6 @@ import java.util.HashMap;
 
 public class ScoreView extends JPanel {
     private static ScoreView instance;
-    private HashMap<Player,Integer> scoreboard;
 
     public static ScoreView getInstance() {
         if (instance == null) {
@@ -20,21 +21,27 @@ public class ScoreView extends JPanel {
     }
 
     public ScoreView() {
-        super(new BorderLayout());
+        super(new GridBagLayout());
     }
 
     public void setScoreboard(HashMap<Player, Integer> scoreboard) {
-        this.scoreboard = scoreboard;
         redraw();
     }
 
     public void redraw(){
         removeAll();
-        add(ScorePanel.getInstance(), BorderLayout.CENTER);
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.anchor = GridBagConstraints.CENTER;
+
+        add(ScorePanel.getInstance(), constraints);
+
         JButton gameListButton = new JButton("Retourner à la liste des jeux");
+        constraints.gridx = GridBagConstraints.RELATIVE;
+        add(gameListButton, constraints);
+        gameListButton.addActionListener(this::onButtonClick);
     }
 
     private void onButtonClick(ActionEvent actionEvent) {
-
+        ClientSocket.getInstance().send(new PlayerLogin(null));
     }
 }

@@ -3,7 +3,6 @@ package user.views;
 import game.MineField;
 import game.Player;
 import packets.PlayerCreateGame;
-import server.ServerSocket;
 import user.Client;
 import user.network.ClientSocket;
 import user.panels.GamePanel;
@@ -11,7 +10,6 @@ import user.panels.GamePanel;
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
-import java.util.Vector;
 
 public class GameListView extends JPanel {
     private static GameListView instance;
@@ -61,7 +59,7 @@ public class GameListView extends JPanel {
         });
 
         gamesPlayers.forEach((gameId,game) -> {
-            constraints.gridy--;
+            constraints.gridy= GridBagConstraints.RELATIVE;
             add(new GamePanel(gameId,game), constraints);
         });
 

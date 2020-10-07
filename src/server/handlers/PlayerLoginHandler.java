@@ -18,11 +18,14 @@ public class PlayerLoginHandler {
     }
 
     public void handle(PlayerLogin packet, ServerIOThread thread){
-        Player player = packet.getPlayer();
-        Integer playerId = ServerSocket.getInstance().getAttributablePlayerId();
-        player.setId(playerId);
-        thread.setPlayer(player);
-        thread.send(new PlayerId(playerId));
+        if (packet.getPlayer() != null)
+        {
+            Player player = packet.getPlayer();
+            Integer playerId = ServerSocket.getInstance().getAttributablePlayerId();
+            player.setId(playerId);
+            thread.setPlayer(player);
+            thread.send(new PlayerId(playerId));
+        }
         thread.send(new GameList(ServerSocket.getInstance().getGamesPlayers()));
     }
 }

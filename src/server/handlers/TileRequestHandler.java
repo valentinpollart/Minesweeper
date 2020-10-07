@@ -33,7 +33,7 @@ public class TileRequestHandler {
             if(game.allPlayersLost()) {
                 scoreboard = new HashMap<>();
                 game.getPlayers().forEach((p,d) -> scoreboard.put(p, p.getScore()));
-                game.broadcast(new GameFinished(scoreboard), null);
+                terminate(player.getGameId());
                 return;
             }
         } else {
@@ -42,10 +42,17 @@ public class TileRequestHandler {
             if(game.getGame().isGameFinished()) {
                 scoreboard = new HashMap<>();
                 game.getPlayers().forEach((p,d) -> scoreboard.put(p, p.getScore()));
-                game.broadcast(new GameFinished(scoreboard), null);
+                terminate(player.getGameId());
                 return;
             }
         }
         game.broadcast(new TileReveal(player, packet.getX(), packet.getY(), tile), null);
+    }
+
+    public void terminate(Integer gameId) {
+        ServerGame game = ServerSocket.getInstance().getServerGame(gameId);
+        game.broadcast(new GameFinished(scoreboard), null);
+        ServerSocket.getInstance().removeGame(gameId);
+
     }
 }

@@ -1,6 +1,7 @@
 package user.network.handlers;
 
 import packets.GameFinished;
+import user.Client;
 import user.views.ScoreView;
 
 public class GameFinishedHandler {
@@ -16,5 +17,7 @@ public class GameFinishedHandler {
     public void handle(GameFinished packet) {
         ScoreView.getInstance().setScoreboard(packet.getScoreboard());
         ScoreView.getInstance().redraw();
+        Client.getInstance().setContentPane(ScoreView.getInstance());
+        Client.getInstance().revalidate();
     }
 }
